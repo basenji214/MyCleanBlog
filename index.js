@@ -4,6 +4,9 @@ const app = new express(); // create express app
 const ejs = require('ejs'); // import ejs
 app.set('view engine', 'ejs'); // set view engine to ejs
 app.use(express.static('public')); // use public folder
+const mongoose = require('mongoose'); // import mongoose
+
+moongoose.connect('mongodb://localhost/my_database', {useNewUrlParser:true }); // connect to mongodb
 
 
 app.listen(4000, () => {
