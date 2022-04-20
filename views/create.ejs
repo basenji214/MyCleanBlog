@@ -7,7 +7,7 @@
     <!-- Page Header-->
     <header
       class="masthead"
-      style="background-image: url('/img/about-bg.jpg')"
+      style="background-image: url('/img/blog.png')"
     >
       <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -37,16 +37,18 @@
               <!-- To make this form functional, sign up at-->
               <!-- https://startbootstrap.com/solution/contact-forms-->
               <!-- to get an API token!-->
-              <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+              <!-- <form id="contactForm" data-sb-form-api-token="API_TOKEN" action="/post/store" method="POST"> -->
+              <form id="contactForm" action="/post/store" method="POST">
                 <div class="form-floating">
                   <input
                     class="form-control"
-                    id="name"
+                    id="title"
                     type="text"
-                    placeholder="Enter your name..."
+                    placeholder="Title"
                     data-sb-validations="required"
+                    name="title"
                   />
-                  <label for="name">Name</label>
+                  <label for="title">Title</label>
                   <div
                     class="invalid-feedback"
                     data-sb-feedback="name:required"
@@ -54,6 +56,7 @@
                     A name is required.
                   </div>
                 </div>
+                <!--
                 <div class="form-floating">
                   <input
                     class="form-control"
@@ -89,20 +92,22 @@
                     A phone number is required.
                   </div>
                 </div>
+                -->
                 <div class="form-floating">
                   <textarea
                     class="form-control"
-                    id="message"
-                    placeholder="Enter your message here..."
+                    id="body"
+                    placeholder="Enter post here..."
                     style="height: 12rem"
                     data-sb-validations="required"
+                    name="body"
                   ></textarea>
-                  <label for="message">Message</label>
+                  <label for="body">Post</label>
                   <div
                     class="invalid-feedback"
                     data-sb-feedback="message:required"
                   >
-                    A message is required.
+                    A post is required.
                   </div>
                 </div>
                 <br />
@@ -129,9 +134,14 @@
                     Error sending message!
                   </div>
                 </div>
-                <!-- Submit Button-->
+                <!-- Submit Button
                 <button
                   class="btn btn-primary text-uppercase disabled"
+                  id="submitButton"
+                  type="submit"
+                >-->
+                <button
+                  class="btn btn-primary text-uppercase"
                   id="submitButton"
                   type="submit"
                 >

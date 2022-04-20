@@ -4,9 +4,14 @@ const app = new express(); // create express app
 const ejs = require("ejs"); // import ejs
 app.set("view engine", "ejs"); // set view engine to ejs
 app.use(express.static("public")); // use public folder
-//const mongodb = require("mongodb"); // import mongodb
 const mongoose = require("mongoose"); // import mongoose
 mongoose.connect("mongodb://localhost/my_database", { useNewUrlParser: true }); // connect to mongodb
+const bodyParser = require("body-parser"); // import body-parser
+app.use(bodyParser.json()); // use body-parser
+app.use(bodyParser.urlencoded({ extended: true })); // use body-parser
+const BlogPost = require("./models/blogPost.js"); // import blogPost model
+
+
 
 app.listen(4000, () => {
   console.log(
@@ -71,3 +76,17 @@ app.get('/posts/new', (req, res) => {
   );
   res.render('create')
 }); 
+
+app.post('/post/store', async (req, res) => {
+  console.log(
+    "\n<--------------------------------------------------------------->"
+    );
+    console.log(req.body)
+    console.log(`/post/store    ${Date(Date.now())}`);
+    console.log(
+      "<--------------------------------------------------------------->"
+    );
+  await BlogPost.create(req.body,(error,BlogPost) => {
+    res.redirect('/') 
+    })
+});
