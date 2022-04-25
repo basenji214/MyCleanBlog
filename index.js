@@ -22,6 +22,7 @@ app.listen(4000, () => {
   console.log("<----------------------------------------------------------->");
 });
 
+/*
 app.get("/", (req, res) => {
   console.log(
     "\n<--------------------------------------------------------------->"
@@ -32,6 +33,8 @@ app.get("/", (req, res) => {
   );
   res.render("index");
 });
+*/
+
 
 app.get("/about", (req, res) => {
   console.log(
@@ -90,3 +93,19 @@ app.post('/post/store', async (req, res) => {
     res.redirect('/') 
     })
 });
+
+app.get('/', async (req, res) => {
+  const blogposts = await BlogPost.find({})
+  res.render('index', {blogposts: blogposts});
+  console.log(
+    "\n<--------------------------------------------------------------->"
+  );
+  console.log(`/    ${Date(Date.now())}`);
+  console.log(
+    "<--------------------------------------------------------------->"
+  );
+});
+
+
+
+
