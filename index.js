@@ -13,8 +13,6 @@ const BlogPost = require("./models/blogPost.js"); // import blogPost model
 const fileUpload = require("express-fileupload"); // import express-fileupload
 app.use(fileUpload()); // use express-fileupload
 
-
-
 app.listen(4000, () => {
   console.log(
     "\n<----------------------------------------------------------->"
@@ -24,9 +22,9 @@ app.listen(4000, () => {
   console.log("<----------------------------------------------------------->");
 });
 
-app.get('/', async (req, res) => {
-  const blogposts = await BlogPost.find({})
-  res.render('index', { blogposts: blogposts });
+app.get("/", async (req, res) => {
+  const blogposts = await BlogPost.find({});
+  res.render("index", { blogposts: blogposts });
   console.log(
     "\n<--------------------------------------------------------------->"
   );
@@ -35,7 +33,6 @@ app.get('/', async (req, res) => {
     "<--------------------------------------------------------------->"
   );
 });
-
 
 app.get("/about", (req, res) => {
   console.log(
@@ -72,7 +69,7 @@ app.get("/post/:id", async (req, res) => {
   res.render("post", { blogpost });
 });
 
-app.get('/posts/new', (req, res) => {
+app.get("/posts/new", (req, res) => {
   console.log(
     "\n<--------------------------------------------------------------->"
   );
@@ -80,34 +77,50 @@ app.get('/posts/new', (req, res) => {
   console.log(
     "<--------------------------------------------------------------->"
   );
-  res.render('create')
+  res.render("create");
 });
 
 /*
-app.post('/post/store', async (req, res) => {
+app.post('/posts/store', async (req, res) => {
   console.log("\n<--------------------------------------------------------------->");
   console.log(req.body)
   console.log(`/post/store    ${Date(Date.now())}`);
   console.log("<--------------------------------------------------------------->");
-  let image = req.files.image;
-  
-  image.mv(path.resolve(__dirname,'public/img',image.name),async(err) => {
-    await BlogPost.create(req.body, (error, BlogPost) => {
-    res.redirect('/')
-  });
-  });
+  await BlogPost.create(req.body);
+  res.redirect('/');  
 });
 */
 
-app.post('/posts/store',async (req,res) =>{    
-  let image = req.files.image
-  image.mv(path.resolve(__dirname,'public/img',image.name),
-      async (error)=>{
-          await BlogPost.create({
-              ...req.body,
-              image:'/img/' + image.name
-          })
-          res.redirect('/')
-      })
+const validatePost = (req, res, next) => {
+  console.log("\n<--------------------------------------------------------------->");
+  console.log('ERROR: Post form is not complete');
+  console.log(`/post/store    ${Date(Date.now())}`);
+  console.log("<--------------------------------------------------------------->");
+  if (req.body.title == null || req.files == null) {
+    return res.redirect("/posts/new");
+  }
+  next();
+};
 
-})
+app.use("/posts/store", validatePost);
+
+app.post("/posts/store", async (req, res) => {
+  console.log("\n<--------------------------------------------------------------->");
+  console.log(req.body);
+  console.log(req.files.imageId);
+  console.log(`/post/store    ${Date(Date.now())}`);
+  console.log("<--------------------------------------------------------------->");
+  let iimage = req.files.imageId;
+  iimage.mv(
+    path.resolve(__dirname, "public/img", iimage.name),
+    async (error) => {
+      await BlogPost.create({
+        ...req.body,
+        imageId: "/img/" + iimage.name,
+      });
+      res.redirect("/");
+    }
+  );
+});
+
+
